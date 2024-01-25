@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+package eu.cdevreeze.trygrpc.proto;
+
+service PrimeFactorsService {
+  rpc GetPrimeFactors (GetPrimeFactorsRequest) returns (GetPrimeFactorsResponse) {}
+}
+
+message GetPrimeFactorsRequest {
+  int64 input_number = 1;
+}
+
+message GetPrimeFactorsResponse {
+  repeated int64 prime_factors = 1;
+}
