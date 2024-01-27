@@ -16,9 +16,11 @@
 
 package eu.cdevreeze.trygrpc.primefactors.server
 
-import io.grpc.{Server, ServerBuilder}
+import io.grpc.protobuf.services.{HealthStatusManager, ProtoReflectionService}
+import io.grpc.{BindableService, Server, ServerBuilder}
 
 import scala.concurrent.ExecutionContext
+import scala.jdk.CollectionConverters.SeqHasAsJava
 
 /**
  * Program running PrimeFactorsService.
@@ -34,11 +36,20 @@ object PrimeFactorsServiceRunner:
     val primeFactorsServiceImpl: PrimeFactorsServiceImpl =
       PrimeFactorsServiceImpl(PrimeFactorizationService.DefaultPrimeFactorizationService)
 
+    val healthStatusManager: HealthStatusManager = new HealthStatusManager()
+
+    // See https://github.com/grpc/grpc-java/blob/master/documentation/server-reflection-tutorial.md
+    // Also see https://github.com/fullstorydev/grpcurl (for gRPCurl)
+    val protoReflectionService: BindableService = ProtoReflectionService.newInstance()
+
+    val bindableServices: Seq[BindableService] =
+      Seq(primeFactorsServiceImpl, healthStatusManager.getHealthService, protoReflectionService)
+
     val serverBuilder: ServerBuilder[?] = ServerBuilder.forPort(port)
     val server: Server =
       serverBuilder
         .executor(ExecutionContext.global)
-        .addService(primeFactorsServiceImpl)
+        .addServices(bindableServices.map(_.bindService()).asJava)
         .build()
     // Add shutdown hook
     // Add useful interceptors

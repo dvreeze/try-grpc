@@ -46,8 +46,11 @@ object PrimeFactorsClientRunner:
       GetPrimeFactorsRequest.newBuilder().setInputNumber(inputNumber.toLong).build()
 
     val response: GetPrimeFactorsResponse = stub.getPrimeFactors(request)
+    val primeFactors: Seq[Long] = response.getPrimeFactorsList.asScala.toSeq.map(Long.unbox)
 
-    println(s"Prime factors of $inputNumber: ${response.getPrimeFactorsList.asScala.toSeq.mkString(", ")}")
+    assert(primeFactors.ensuring(_.nonEmpty).product == inputNumber.toLong)
+
+    println(s"Prime factors of $inputNumber: ${primeFactors.mkString(", ")}")
   end main
 
 end PrimeFactorsClientRunner

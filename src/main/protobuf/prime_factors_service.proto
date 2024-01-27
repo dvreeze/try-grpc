@@ -4,7 +4,7 @@ syntax = "proto3";
 package eu.cdevreeze.trygrpc.proto;
 
 service PrimeFactorsService {
-  rpc GetPrimeFactors (GetPrimeFactorsRequest) returns (GetPrimeFactorsResponse) {}
+  rpc GetPrimeFactors (GetPrimeFactorsRequest) returns (GetPrimeFactorsResponse);
 }
 
 message GetPrimeFactorsRequest {
