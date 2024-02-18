@@ -27,6 +27,9 @@ We could then invoke an RPC (after finding out reflectively how to do so). For e
     ~/go/bin/grpcurl -plaintext -d '{ "input_number": 93583350 }' localhost:9090 \
       eu.cdevreeze.trygrpc.proto.PrimeFactorsService.GetPrimeFactors
 
+For a nice article about gRPC essentials, see understanding-grpc-essentials_.
+
 .. _gRPC: https://grpc.io/
 .. _gRPC-Java: https://grpc.io/docs/languages/java/quickstart/
 .. _grpcurl: https://github.com/fullstorydev/grpcurl
+.. _understanding-grpc-essentials: https://www.mulesoft.com/api-university/understanding-essentials-grpc
